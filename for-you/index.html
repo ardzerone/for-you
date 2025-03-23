@@ -1,69 +1,47 @@
-<!DOCTYPE html>
-<html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Untuk Siti Maemumah 💖</title>
-    <style>
-      body {
-        font-family: "Arial", sans-serif;
-        background: linear-gradient(to right, #ff758c, #ff7eb3);
-        text-align: center;
-        padding: 20px;
-        color: white;
-      }
-      .container {
-        max-width: 600px;
-        margin: 50px auto;
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 15px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-      }
-      h1 {
-        font-size: 28px;
-      }
-      p {
-        font-size: 18px;
-        font-style: italic;
-      }
-      .love-button {
-        display: inline-block;
-        padding: 10px 20px;
-        background: #ff4d6d;
-        color: white;
-        font-size: 18px;
-        border-radius: 10px;
-        text-decoration: none;
-        transition: 0.3s;
-      }
-      .love-button:hover {
-        background: #ff1e56;
-      }
-      audio {
-        margin-top: 20px;
-        width: 100%;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Untuk Siti Maemumah 💖</h1>
-      <p>
-        Hai Sayang, Jangan pernah menyerah, tetap semangat, dan ingat bahwa aku
-        selalu ada untukmu. Dunia ini lebih indah karena ada kamu di dalamnya.
-        😊💖
-      </p>
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { FaLaughBeam } from "react-icons/fa";
 
-      <a class="love-button" href="#">Tetap Semangat! 💪</a>
+const messages = [
+  "Hei, kamu! Jangan sedih, aku sudah siap jadi badut buat kamu! 🤡",
+  "Semangat yaaa! Kalau capek, kita bisa pura-pura jadi penguin bareng! 🐧",
+  "Gagal itu biasa, yang luar biasa adalah cara kita ngakak setelahnya! 😂",
+  "Kamu tuh kayak WiFi, kalau ilang aku panik! 📶❤️",
+  "Aku percaya sama kamu! Kalau butuh motivasi, ingat saja wajah lucuku ini! 😆"
+];
 
-      <audio controls autoplay loop>
-        <source
-          src="https://www.bensound.com/bensound-music/bensound-love.mp3"
-          type="audio/mp3"
-        />
-        Maaf, browser kamu tidak mendukung pemutar musik.
+export default function FunnyEncouragementPage() {
+  const [messageIndex, setMessageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMessageIndex((prev) => (prev + 1) % messages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-yellow-200 text-center p-6 relative">
+      <audio autoPlay loop>
+        <source src="/funny-music.mp3" type="audio/mp3" />
+        Your browser does not support the audio element.
       </audio>
+      <motion.div
+        key={messageIndex}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 20 }}
+        transition={{ duration: 1 }}
+        className="text-3xl font-semibold text-yellow-800 max-w-lg bg-white p-8 rounded-3xl shadow-lg border border-yellow-300 flex items-center gap-3"
+      >
+        <FaLaughBeam className="text-4xl text-yellow-500" />
+        {messages[messageIndex]}
+      </motion.div>
+      <Button className="mt-6 bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg text-lg shadow-md">
+        Semangat, ya! 😂
+      </Button>
+      <div className="absolute bottom-10 text-yellow-700 text-sm">"Aku bakal selalu ada buat bikin kamu ketawa! 🤭"</div>
     </div>
-  </body>
-</html>
+  );
+}
